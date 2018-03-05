@@ -1,0 +1,66 @@
+/*
+ * SpringBootDemo
+ */
+
+plugins {
+    id 'java'
+    id 'application'
+
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
+    
+    id 'com.palantir.docker' version '0.19.2'
+}
+
+// Define the main class for the application
+mainClassName = 'pl.jblew.springbootdemo.App'
+
+group = "pl.jblew";
+
+dependencies {
+    // This dependency is found on compile classpath of this component and consumers.
+    compile 'com.google.guava:guava:23.0'
+
+    // Use JUnit test framework
+    testCompile 'junit:junit:4.12'
+    
+    compile "org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE"
+    testCompile "org.springframework.boot:spring-boot-starter-test:2.0.0.RELEASE"
+    
+    //classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+
+jar {
+	mainClassName = 'pl.jblew.springbootdemo.App'
+        baseName = 'spring-boot-demo'
+	version =  '0.0.1-SNAPSHOT'
+        enabled = true
+        
+    manifest {
+        attributes(
+            'Main-Class': project.mainClassName
+        )
+  }
+}
+
+bootJar {
+        mainClassName = 'pl.jblew.springbootdemo.App'
+	classifier = 'boot'
+        launchScript()
+}
+
+docker {
+    mainClassName = 'pl.jblew.springbootdemo.App'
+    name "${project.group}/${jar.baseName}"
+    files bootJar.archivePath
+    buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
+    dockerfile file('Dockerfile')
+}
