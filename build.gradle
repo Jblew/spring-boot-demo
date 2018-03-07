@@ -8,7 +8,7 @@ plugins {
 
     id 'org.springframework.boot' version '2.0.0.RELEASE'
     
-    id 'com.palantir.docker' version '0.19.2'
+    //id 'com.palantir.docker' version '0.19.2'
 }
 
 // Define the main class for the application
@@ -38,7 +38,7 @@ repositories {
 }
 
 
-jar {
+/*jar {
 	mainClassName = 'pl.jblew.springbootdemo.App'
         baseName = 'spring-boot-demo'
 	version =  '0.0.1-SNAPSHOT'
@@ -49,9 +49,9 @@ jar {
             'Main-Class': project.mainClassName
         )
   }
-}
+}*/
 
-bootJar {
+/*bootJar {
         mainClassName = 'pl.jblew.springbootdemo.App'
 	classifier = 'boot'
         launchScript()
@@ -63,4 +63,4 @@ docker {
     files bootJar.archivePath
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
     dockerfile file('Dockerfile')
-}
+}*/
